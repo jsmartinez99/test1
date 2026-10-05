@@ -1,0 +1,38 @@
+// Configuración de modelos para OpenClaw vía OpenRouter.
+// Copiar el bloque "agents" a ~/.openclaw/openclaw.json (formato JSON5).
+// Credencial: en un chat privado enviar `/login openrouter`, o definir OPENROUTER_API_KEY.
+// IDs y precios: catálogo de OpenRouter del 2026-10-05 (USD por millón de tokens, entrada/salida).
+{
+  agents: {
+    defaults: {
+      models: {
+        "openrouter/qwen/qwen3.8-27b:free": { alias: "gratis" },
+        "openrouter/qwen/qwen3.8-27b": { alias: "qwen-pago" },
+        "openrouter/z-ai/glm-5.3-flash": { alias: "barato" },
+        "openrouter/qwen/qwen3.8-max-0902": { alias: "max" },
+      },
+
+      // Cadena principal: gratis -> mismo modelo de pago -> barato -> fuerte.
+      model: {
+        primary: "openrouter/qwen/qwen3.8-27b:free", // $0 / $0, agentic 45.8
+        fallbacks: [
+          "openrouter/qwen/qwen3.8-27b", // $0.425 / $2.55, mismo modelo, contexto 1M
+          "openrouter/z-ai/glm-5.3-flash", // $0.15 / $0.50, agentic 50.9
+          "openrouter/qwen/qwen3.8-max-0902", // $2 / $6, agentic 56
+        ],
+      },
+
+      // Títulos, resúmenes de actividad y narración de progreso.
+      utilityModel: "openrouter/google/gemma-4-31b-it:free", // $0 / $0
+
+      // Se usa cuando el modelo de la sesión no acepta imágenes.
+      imageModel: {
+        primary: "openrouter/qwen/qwen3.8-27b:free",
+        fallbacks: [
+          "openrouter/google/gemma-4-31b-it:free",
+          "openrouter/z-ai/glm-5.3-flash",
+        ],
+      },
+    },
+  },
+}

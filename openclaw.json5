@@ -6,19 +6,17 @@
   agents: {
     defaults: {
       models: {
-        "openrouter/qwen/qwen3.8-27b:free": { alias: "gratis" },
-        "openrouter/qwen/qwen3.8-27b": { alias: "qwen-pago" },
-        "openrouter/z-ai/glm-5.3-flash": { alias: "barato" },
+        "openrouter/z-ai/glm-5.3-flash": { alias: "glm" },
         "openrouter/qwen/qwen3.8-max-0902": { alias: "max" },
+        "openrouter/qwen/qwen3.8-27b:free": { alias: "gratis" },
       },
 
-      // Cadena principal: gratis -> mismo modelo de pago -> barato -> fuerte.
+      // Cadena principal: barato y fuerte -> más fuerte -> gratis.
       model: {
-        primary: "openrouter/qwen/qwen3.8-27b:free", // $0 / $0, agentic 45.8
+        primary: "openrouter/z-ai/glm-5.3-flash", // $0.15 / $0.50, agentic 50.9
         fallbacks: [
-          "openrouter/qwen/qwen3.8-27b", // $0.425 / $2.55, mismo modelo, contexto 1M
-          "openrouter/z-ai/glm-5.3-flash", // $0.15 / $0.50, agentic 50.9
           "openrouter/qwen/qwen3.8-max-0902", // $2 / $6, agentic 56
+          "openrouter/qwen/qwen3.8-27b:free", // $0 / $0, agentic 45.8
         ],
       },
 

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+
+  "model": "openrouter/qwen/qwen3.8-27b:free",
+  "small_model": "openrouter/google/gemma-4-31b-it:free",
+
+  "provider": {
+    "openrouter": {
+      "models": {
+        "qwen/qwen3.8-27b:free": {},
+        "google/gemma-4-31b-it:free": {},
+        "thinkingmachines/inkling-small:free": {},
+        "moonshotai/kimi-k2.7-code": {},
+        "anthropic/claude-sonnet-5.5": {},
+        "anthropic/claude-opus-5.5": {}
+      }
+    }
+  },
+
+  "agent": {
+    "build": {
+      "mode": "primary",
+      "model": "openrouter/qwen/qwen3.8-27b:free",
+      "permission": {
+        "task": {
+          "*": "allow",
+          "experto": "ask"
+        }
+      }
+    },
+    "general": {
+      "mode": "subagent",
+      "model": "openrouter/qwen/qwen3.8-27b:free"
+    },
+    "explore": {
+      "mode": "subagent",
+      "model": "openrouter/thinkingmachines/inkling-small:free"
+    },
+
+    "plan": {
+      "mode": "primary",
+      "model": "openrouter/anthropic/claude-sonnet-5.5"
+    },
+    "build-pro": {
+      "description": "Implementación con modelo de pago para tareas que el modelo gratuito no resuelve",
+      "mode": "primary",
+      "model": "openrouter/moonshotai/kimi-k2.7-code"
+    },
+    "experto": {
+      "description": "Problemas difíciles: bugs complejos, arquitectura y cambios grandes en varios archivos",
+      "mode": "subagent",
+      "model": "openrouter/anthropic/claude-opus-5.5"
+    }
+  }
+}
